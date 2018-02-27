@@ -1,0 +1,16 @@
+{
+  "name": "crackerjack",
+  "version": "0.1.0",
+  "description": "password cracker for infosec lab 4",
+  "main": "main.js",
+  "author": "jorge valdez javaldez@smu.edu",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "event-stream": "^3.3.4",
+    "hashtable": "^2.0.2"
+  },
+  "scripts": {
+    "start": "node main.js"
+  }
+}
