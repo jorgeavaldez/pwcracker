@@ -16,7 +16,14 @@ const main = ({ hashfile, outfile, corpus }) => {
   };
 
   const processCracked = cracked => {
-    console.log(chalk.green(`Number of passwords cracked: ${chalk.yellow('' + Object.keys(cracked).length)}`));
+    const numCracked = '' + Object.keys(cracked).reduce(
+      (sum, hash) => {
+        if (cracked[hash]) return sum + 1;
+        else return sum;
+      }, 
+      0);
+
+    console.log(chalk.green(`Number of passwords cracked: ${chalk.yellow(numCracked)}`));
 
     console.log(chalk.magenta(`\nDumping cracked passwords to outfile ${chalk.yellow(outfile)}`));
     return pwc.writeCrackedToFile(outfile);
