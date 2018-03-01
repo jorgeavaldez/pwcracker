@@ -3,7 +3,7 @@ const { PWCracker } = require('./lib/pwcracker');
 const chalk = require('chalk');
 const yargs = require('yargs');
 
-const main = ({ hashfile, corpus }) => {
+const main = ({ hashfile, outfile, corpus }) => {
   console.log(chalk.magenta(`Creating table using files in ${chalk.yellow(corpus)}`));
 
   const pwc = new PWCracker(corpus);
@@ -15,11 +15,18 @@ const main = ({ hashfile, corpus }) => {
     console.log(chalk.magenta(`\nParsing hashfile ${chalk.yellow(hashfile)}`));
   };
 
+  const processCracked = cracked => {
+    console.log(chalk.green(`Number of passwords cracked: ${chalk.yellow('' + Object.keys(cracked).length)}`));
+
+    console.log(chalk.magenta(`\nDumping cracked passwords to outfile ${chalk.yellow(outfile)}`));
+    return pwc.writeCrackedToFile(outfile);
+  };
+
   console.log(chalk.magenta('Creating rainbow table...'));
   return pwc.createTable()
     .then(printRainbowStats)
     .then(() => pwc.crackFile(hashfile))
-    .then(cracked => console.log(chalk.green(`Number of passwords cracked: ${chalk.yellow('' + Object.keys(cracked).length)}`)))
+    .then(processCracked)
     .catch((err) => console.log(err));
 };
 
